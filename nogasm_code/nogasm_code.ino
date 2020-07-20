@@ -144,9 +144,12 @@ void setup() {
 
   // Classic AVR based Arduinos have a PWM frequency of about 490Hz which
   // causes the motor to whine.  Change the prescaler to achieve 31372Hz.
-  sbi(TCCR1B, CS10);
-  cbi(TCCR1B, CS11);
-  cbi(TCCR1B, CS12);
+  //sbi(TCCR1B, CS10);
+  //cbi(TCCR1B, CS11);
+  //cbi(TCCR1B, CS12);
+  TCCR1B |= (1<<CS10);
+  TCCR1B |= (1<<CS11);
+  TCCR1B |= (1<<CS12);
 
   pinMode(MOTPIN,OUTPUT); //Enable "analog" out (PWM)
   
@@ -167,7 +170,7 @@ void setup() {
 
   //Recall saved settings from memory
   sensitivity = EEPROM.read(SENSITIVITY_ADDR);
-  maxSpeed = min(EEPROM.read(MAX_SPEED_ADDR),MOT_MAX); //Obey the MOT_MAX the first power  cycle after chaning it.
+  maxSpeed = min(EEPROM.read(MAX_SPEED_ADDR),MOT_MAX); //Obey the MOT_MAX the first power cycle after changing it.
   beep_motor(1047,1396,2093); //Power on beep
 }
 
